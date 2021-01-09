@@ -1,36 +1,38 @@
-public class ArrayDeque<Wang> {
-    private Wang[] items;
+public class ArrayDeque<T> {
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
     public ArrayDeque() {
-        items = (Wang []) new Object[8];
+        items = (T []) new Object[8];
         size = 0;
         nextFirst = 4;
         nextLast = 5;
     }
 
     private void resize(int capacity) {
-        Wang[] a = (Wang []) new Object[capacity];
+        T[] a = (T []) new Object[capacity];
         System.arraycopy(items, 0, a, 0, nextFirst + 1);
-        System.arraycopy(items, nextLast, a, capacity - items.length + nextLast, items.length - nextLast);
+        int i1 = capacity - items.length + nextLast;
+        int i2 = items.length - nextLast;
+        System.arraycopy(items, nextLast, a, i1, i2);
         nextFirst = capacity - 1 - items.length + nextLast;
         items = a;
     }
 
-    public void addFirst(Wang item){
+    public void addFirst(T item) {
         items[nextFirst] = item;
         nextFirst--;
         size++;
-        if (nextFirst < 0 && size < items.length){
+        if (nextFirst < 0 && size < items.length) {
             nextFirst = items.length - 1;
         } else if (nextFirst == nextLast - 1 && size == items.length) {
             resize(items.length * 2);
         }
     }
 
-    public void addLast(Wang item) {
+    public void addLast(T item) {
         items[nextLast] = item;
         nextLast++;
         size++;
@@ -52,7 +54,7 @@ public class ArrayDeque<Wang> {
     public void printDeque() {
         if (nextFirst < nextLast) {
             int i = nextFirst + 1;
-            while(i <= nextLast - 1) {
+            while (i <= nextLast - 1) {
                 System.out.print(items[i] + " ");
                 i++;
             }
@@ -67,9 +69,9 @@ public class ArrayDeque<Wang> {
         System.out.println("\n");
     }
 
-    public Wang removeFirst() {
-        Wang returnItem;
-        if(nextFirst + 1 == items.length) {
+    public T removeFirst() {
+        T returnItem;
+        if (nextFirst + 1 == items.length) {
             returnItem = items[0];
             items[0] = null;
             nextFirst = 0;
@@ -82,8 +84,8 @@ public class ArrayDeque<Wang> {
         return returnItem;
     }
 
-    public Wang removeLast() {
-        Wang returnItem;
+    public T removeLast() {
+        T returnItem;
         if (nextLast == 0) {
             returnItem = items[0];
             items[0] = null;
@@ -97,7 +99,7 @@ public class ArrayDeque<Wang> {
         return returnItem;
     }
 
-    public Wang get(int index) {
+    public T get(int index) {
         if (nextFirst < nextLast || index < items.length - nextFirst - 1) {
             return items[nextFirst + index + 1];
         } else {
@@ -105,23 +107,23 @@ public class ArrayDeque<Wang> {
         }
     }
 
-    public static void main(String[] args) {
-        ArrayDeque A = new ArrayDeque();
-        A.addFirst(1);
-        A.addFirst(2);
-        A.addFirst(3);
-        A.addFirst(4);
-        A.addFirst(5);
-        A.addFirst(6);
-        A.addLast(7);
-        A.addLast(8);
-        A.addLast(9);
-        System.out.println(A.get(6));
-        A.addLast(10);
-        A.addFirst(11);
-        A.removeFirst();
-        A.removeLast();
-        A.printDeque();
-        System.out.println(A.get(6));
-    }
+//    public static void main(String[] args) {
+//        ArrayDeque A = new ArrayDeque();
+//        A.addFirst(1);
+//        A.addFirst(2);
+//        A.addFirst(3);
+//        A.addFirst(4);
+//        A.addFirst(5);
+//        A.addFirst(6);
+//        A.addLast(7);
+//        A.addLast(8);
+//        A.addLast(9);
+//        System.out.println(A.get(6));
+//        A.addLast(10);
+//        A.addFirst(11);
+//        A.removeFirst();
+//        A.removeLast();
+//        A.printDeque();
+//        System.out.println(A.get(6));
+//    }
 }
